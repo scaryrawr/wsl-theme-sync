@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# See if apps are flagged for light theme
+light=`cmd.exe /c 'reg query HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize /v AppsUseLightTheme' 2>/dev/null | awk '/AppsUseLightTheme/ {print $3}' | sed 's/\r$//'`
+if [ "$light" = "0x0" ]; then
+    # Switch to dark theme
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+    gsettings set org.gnome.desktop.wm.preferences theme 'Adwaita-dark'
+else
+    # Switch to light theme
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
+    gsettings set org.gnome.desktop.wm.preferences theme 'Adwaita'
+fi
